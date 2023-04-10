@@ -1,0 +1,25 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+    <h3 class="mt-3"><span class="badge badge-pill badge-secondary">{{ num_articles }}</span> Articles</h3>
+
+    <div class="row">
+        {% for article in articles|sort%}
+            <div class="col-4 p-2">
+                <div class="card  p-1">
+                    <img src="https://placehold.co/500x350" class="card-img-top" alt="...">
+                    <div class="card-header p-2">
+                        <h6 class="">{{ article.title }}</h6>
+                        <small class="card-date"><i class="far fa-clock"></i> {{ article.date }}</small>
+                    </div>
+                    <div class="card-body p-2">
+                        {% autoescape false %}
+                            <p class="card-text text-justify" style="font-size: 12px">{{  article.text|slice(0,250) ~ '...'  }}</p>
+                        {% endautoescape %}
+                        <a href="article/{{ article.slug }}" class="btn btn-primary">Read Full Article</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

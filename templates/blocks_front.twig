@@ -34,36 +34,90 @@
 
 {# This is the block for the solution of task 2 #}
 {% block solution_news %}
-  {# 
-  /**
-   * parent() is only needed to show some temporal html. 
-   * Your solution does not require its use and you can delete it.
-   */
-  #}
-  {{ parent() }}
-
+    <div class="row">
+        {% for article in data_t2|sort((a, b) => a.id < b.id)|slice(0,3) %}
+            <div class="col p-2">
+                <div class="card  p-1">
+                    <img src="https://placehold.co/500x350" class="card-img-top" alt="...">
+                    <div class="card-header p-2">
+                        <h6 class="">{{ article.title }}</h6>
+                        <small class="card-date"><i class="far fa-clock"></i> {{ article.date }}</small>
+                    </div>
+                    <div class="card-body p-2">
+                        {% autoescape false %}
+                            <p class="card-text text-justify"
+                               style="font-size: 12px">{{ article.text|slice(0,250) ~ '...' }}</p>
+                        {% endautoescape %}
+                        <a href="article/{{ article.slug }}" class="btn btn-primary">Read Full Article</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
 
 {# This is the block for the solution of task 4 #}
 {% block solution_accordion %}
-  {# 
-  /**
-   * parent() is only needed to show some temporal html. 
-   * Your solution does not require its use and you can delete it.
-   */
-  #}
-  {{ parent() }}
+    {#
+    /**
+     * parent() is only needed to show some temporal html.
+     * Your solution does not require its use and you can delete it.
+     */
+    #}
+    <div class="accordion" id="faq">
+        {% for country,accordion in data_t4 %}
+            <div class="card">
+                <div class="card-header" id="accordion">
+                    <a href="#" class="btn btn-header-link" data-toggle="collapse" data-target="#{{ country }}"
+                       aria-expanded="true" aria-controls="faq1" style="font-size: 12px;padding: 0px"><strong>
+                            <span class="fi fi-{{ accordion|first.cc|lower }}"></span>
+                            {{ country }} ({{ accordion|length }} sections)</strong></a>
+                </div>
+
+                <div id="{{ country }}" class="collapse " aria-labelledby="{{ country }}" data-parent="#accordion">
+                    <div class="card-body">
+                        {% for item in accordion %}
+                            <p style="font-size: 12px;margin: 1px">{{ item.label }} ({{ item.code }}
+                                ) {% if item.website %} <a href="{{ item.website }}"
+                                                           target="_blank"><i
+                                            class="fas fa-link"></i></a>  {% endif %}</p>
+
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {# </div>
+    {% for accordion in data_t4 %}
+        {{ accordion }}
+    {% endfor %} #}
 
 {% endblock %}
 
-{# This is the block for the solution of task 5 #}
-{% block solution_table %}
-  {# 
-  /**
-   * parent() is only needed to show some temporal html. 
-   * Your solution does not require its use and you can delete it.
-   */
-  #}
-  {{ parent() }}
+    {# This is the block for the solution of task 5 #}
 
-{% endblock %}
+    {% block solution_table %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Card Code</th>
+                <th scope="col">Card Status</th>
+                <th scope="col">Section Code</th>
+                <th scope="col">Card Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in data_t5 %}
+                <tr>
+                    <th scope="row">{{ item.card_code }}</th>
+                    <td>{{ item.card_status }}</td>
+                    <td>{{ item.section_code }}</td>
+                    <td>{{ item.card_date }}</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    {% endblock %}

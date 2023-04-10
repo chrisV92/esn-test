@@ -1,0 +1,23 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+    <div class="row">
+        {% for item in article%}
+            <div class="col-12 p-2">
+                <div class="card  p-1">
+                    <img src="https://placehold.co/1000x350" class="card-img-top" alt="...">
+                    <div class="card-header p-2">
+                        <h6 class="">{{ item.title }}</h6>
+                        <small class="card-date"><i class="far fa-clock"></i> {{ item.date }}</small>
+                    </div>
+                    <div class="card-body p-2">
+                        {% autoescape false %}
+                            <p class="card-text text-justify" style="font-size: 12px">{{  item.text }}</p>
+                        {% endautoescape %}
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
